@@ -11,7 +11,7 @@ var displayToast = (heading , type , text)=>{
         icon: type,
         showHideTransition: 'slide',
         loader:false,
-        position:{bottom: '20vh' , left:'40%'}
+        position:'bottom-right'
     });
 };
 
