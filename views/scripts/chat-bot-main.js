@@ -135,21 +135,18 @@ $('.chat-content').on('click','.send',function(){
     else if(email == '' || !email.match(email_regex)){
         alert('enter valid email');
     }
-    else{
-        // $.post('/chat/send_email',{'question' : text,'email': email} , function(data){
-        //     console.log(data);
-            console.log("email sent");
-                //Create div to display acknowledgement message to user
+    else {
+        
+        //Create div to display acknowledgement message to user
                 var msgrcd = $("<div class ='message-received'>Your query has been recorded<br> We will reachout to you shortly.</div>");
                     msgrcd.hide();
                     textBoxDisplayed = false;
                     $('.chat-content').append(msgrcd);
                     msgrcd.fadeIn(400);
                     $('.chat').animate({
-                        scrollTop: $('.chat')[0].scrollHeight}, "slow");
-                //Display first question and it's options by appending option buttons
-                $.post('/chat/next_question',{'next_question':1},function(data){
-    
+                        scrollTop: $('.chat')[0].scrollHeight
+                    }, "slow");
+         $.post('/chat/next_question',{'next_question':1},function(data){
                     var msgrcd = $("<div class ='message-received'>"+data.question+"</div>");
                     msgrcd.hide();
                     $('.chat-content').append(msgrcd);
@@ -166,7 +163,14 @@ $('.chat-content').on('click','.send',function(){
                         }
                     }); 
                 });
-        // });
+        $.post('/chat/send_email',{'question' : text,'email': email} , function(data){
+            console.log(data);
+            console.log("email sent");
+
+                
+                //Display first question and it's options by appending option buttons
+               
+        });
         
 
     }

@@ -107,6 +107,8 @@ INSERT INTO `answers` (`id`, `optionid`, `answer`) VALUES
 (5, 10, 'Rs. 25,000/-'),
 (6, 11, 'Rs. 97,000/-');
 
+
+CREATE TABLE `chat-bot`.`other_questions` ( `id` INT NOT NULL AUTO_INCREMENT , `question` INT NOT NULL , `timestamp` INT NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
 --
 -- Indexes for dumped tables
 --

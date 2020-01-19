@@ -63,16 +63,23 @@ router.post('/answer' , (req,res)=>{
 });
 
 //For route 'send_email' send user query as email to somaiya
-router.post('/send_email' , (req,res)=>{
+router.post('/send_email', (req, res) => {
+    
+    chatController.add_user_question(req.body.question)
+        .then(() => {
+        })
+        .catch(() => {
+            res.send({code: 0 , message: 'error in adding question to db'})
+        });
+    
     var result = emailController.sendEmail(req.body.question , req.body.email);
-    result.then(()=>{
-        res.send('sent');
+        result.then(() => {
+            res.send({code: 1, message: "email sent successfully" });
+        });
+        result.catch((error) => {
+            res.send({code:0 , message: 'email not sent'});
+        });
     });
-
-    result.catch((error)=>{
-        res.send('error');
-    })
-});
 
 //Export router to make them available in other files
 module.exports = router;
