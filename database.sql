@@ -108,7 +108,17 @@ INSERT INTO `answers` (`id`, `optionid`, `answer`) VALUES
 (6, 11, 'Rs. 97,000/-');
 
 
-CREATE TABLE `chat-bot`.`other_questions` ( `id` INT NOT NULL AUTO_INCREMENT , `question` INT NOT NULL , `timestamp` INT NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (`id`)) ENGINE = InnoDB;
+
+CREATE TABLE `other_questions` (
+  `id` int(11) NOT NULL,
+  `question` mediumtext NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `isReplied` int(11) NOT NULL DEFAULT 0,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
 --
 -- Indexes for dumped tables
 --

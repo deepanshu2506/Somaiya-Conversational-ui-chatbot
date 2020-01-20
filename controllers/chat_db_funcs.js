@@ -10,7 +10,7 @@ var next_question_query = 'select * from questions where id = ?';
 //'get_answer_query' to store query to obtain final answer of given option_name
 var get_answer_query = 'select answer from answers join options where answers.optionid = options.id and options.option_name = ?';
 
-var add_user_question_query = 'insert into other_questions(question,email) values(?,?);'
+var add_user_question_query = 'insert into other_questions(question,email,location) values(?,? , ?);'
 
 
 //If connection established and start_conv_query executed properly then start question will be stored in 'start_conv'
@@ -89,14 +89,14 @@ var get_answer = (option)=>{
         });
     });
 }
-var add_user_question = (question,email)=>{
+var add_user_question = (question,email , location)=>{
     
     return new Promise((resolve,reject)=>{
         connectionPool.getConnection((err,conn) => {
             if(err){
                 reject(err);
             }
-            conn.query(add_user_question_query,[question,email],(err,results,fields) =>{
+            conn.query(add_user_question_query,[question,email ,location],(err,results,fields) =>{
                 if(err){
                    reject(err);
                 }

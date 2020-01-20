@@ -11,6 +11,10 @@ const emailController = require('../controllers/Email');
 //Importing 'body-parser' module
 var bodyParser = require('body-parser');
 
+
+const publicIp = require('public-ip');
+const geoip = require('geoip-lite');
+
 //Returns middleware that only parses json
 router.use(bodyParser.json()); 
 //Returns middleware that only parses urlencoded bodies
@@ -63,9 +67,11 @@ router.post('/answer' , (req,res)=>{
 });
 
 //For route 'send_email' send user query as email to somaiya
-router.post('/send_email', (req, res) => {
-    
-    chatController.add_user_question(req.body.question,req.body.email)
+router.post('/send_email', async (req, res) => {
+
+    const ip = await publicIp.v4();
+    const geoLocation = geoip.lookup(ip);    
+    chatController.add_user_question(req.body.question,req.body.email , geoLocation.city)
         .then(() => {
         })
         .catch(() => {

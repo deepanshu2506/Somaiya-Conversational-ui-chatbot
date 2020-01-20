@@ -12,7 +12,7 @@ var displayToast = (heading , type , text)=>{
 
 
 $(document).ready(function () {
-    console.log(localStorage.jwtToken)
+    // console.log(localStorage.jwtToken)
     if (localStorage.jwtToken != undefined) {
         $.ajax({
             method: 'POST', url: '/admin/get_question_data', headers: { Authorization: localStorage.jwtToken }, data: { id: 1 }, success: function (data) {
