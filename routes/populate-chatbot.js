@@ -65,7 +65,7 @@ router.post('/answer' , (req,res)=>{
 //For route 'send_email' send user query as email to somaiya
 router.post('/send_email', (req, res) => {
     
-    chatController.add_user_question(req.body.question)
+    chatController.add_user_question(req.body.question,req.body.email)
         .then(() => {
         })
         .catch(() => {
