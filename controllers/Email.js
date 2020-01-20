@@ -5,16 +5,16 @@ var sendEmail = (question , email)=>{
     var transporter = emailSender.createTransport({
         service: 'gmail',
         auth: {
-          user: 'vanganideepanshu@gmail.com',
-          pass: 'Enter your password'
+          user: 'somaiyachatbot@gmail.com',
+          pass: 'saheb@123'
         }
       });
       
       var mailOptions = {
-        from: 'BOT <vanganideepanshu@gmail.com>',
-        to: 'deepanshu.v@somaiya.edu',
+        from: 'BOT <somaiyachatbot@gmail.com>',
+        to: 'somaiyachatbot@gmail.com',
         cc: email,
-        subject: 'Sending Email using Node.js',
+        subject: 'Somaiya helper BOT',
         text: 'Please Help me with the following question: \n\n' + question 
       };
       return new Promise((resolve,reject)=>{
