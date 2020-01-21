@@ -63,7 +63,7 @@ $('.options').on('click','.optionbtn',function(){
     var next_question = $(this).val();
     console.log(next_question);
     //If option with valid associated next question is selected
-    if(next_question != 'null' && next_question != -11){
+    if(next_question != 'null' && next_question != -11 && next_question != ""){
         setTimeout(()=>{
             $.post('/chat/next_question',{'next_question':next_question},function(data){
                 //Create div to display reply message i.e. next question
@@ -108,7 +108,10 @@ $('.options').on('click','.optionbtn',function(){
             scrollTop: $('.chat')[0].scrollHeight}, "slow");
         $(this).prop('disabled',true);
         
-    }else{
+    }
+    else if (next_question == "") {
+        console.log('hello')
+     }else {
         //If selected option has a final answer then display answer and show start over button
         $.post('/chat/answer',{'option':$(this).text()}, function(data){
             //Create a div to display answer to user, here 'data' holds final answer
@@ -127,18 +130,64 @@ $('.options').on('click','.optionbtn',function(){
             //Show Start over button
             setTimeout(()=>{
                 $('.options').append("<button class = 'optionbtn' value = '1'>Start Over</button>").hide().fadeIn(400);
-                $('.options').append("<button class = ' email optionbtn' value = '1'>Email History</button>").hide().fadeIn(400);
+                $('.options').append("<button class = ' email optionbtn'>Email History</button>").hide().fadeIn(400);
             },600);
             
         });
     }
 });
-$('.options').on('click', '.email', function () {
+$('.options').on('click', '.email', function (e) {
+    
+    
+    var textBox = $("<input type = 'text' name = 'email' class = 'other email history-email' placeholder='Enter your email' required/><button class ='send-email '><i class = 'material-icons'>arrow_forward</i></button>");
+    textBox.hide();
+    $('.chat-content').append(textBox);
+    textBox.delay(400).fadeIn(400);
+    textBoxDisplayed = true;
+    $('.chat').animate({
+        scrollTop: $('.chat')[0].scrollHeight}, "slow");
+    $(this).prop('disabled', true);
+    
+    // $.post('/chat/send_chat_history', {conversation:conversation}, function (response) {
+        
+    // });
+});
+
+
+$('body').on('click', '.send-email', function () {
     var conversation = JSON.parse(localStorage.conversation);
     conversation.pop();
     console.log(conversation);
-});
+    let email = $('.history-email').last().val();
+    console.log(email);
+    localStorage.setItem('conversation', JSON.stringify([]));
+    $.post('/chat/next_question', { 'next_question': 1 }, function (data) {
+             var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
+             var conversation = JSON.parse(localStorage.conversation);
+            conversation.push({ from: 'SAHEB', message: data.question });
+            localStorage.setItem('conversation', JSON.stringify(conversation));
+                    msgrcd.hide();
+                    $('.chat-content').append(msgrcd);
+                    msgrcd.fadeIn(400);
+                    $('.chat').animate({
+                        scrollTop: $('.chat')[0].scrollHeight}, "slow");
+                    $('.optionbtn').fadeOut(400);
+                    //Clear previous options
+                    $('options').empty();
+                    //Add new options
+                    $.post('/chat/get_options',{'next_options':data.id},function(data){
+                        for(option of data){
+                            $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
+                        }
+                    }); 
+                });
+    $.post('/chat/send_chat_history', { conversation: conversation, email: email }, function (response) {
+        console.log(response)
+        
+    });
 
+    
+});
 
 
 //Action to be taken after click on send button

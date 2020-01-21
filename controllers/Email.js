@@ -65,6 +65,43 @@ var sendResponseEmail = (answer,question , email)=>{
       
 };
 
+var sendChatHistory = (conversation, email)=>{
+    var transporter = emailSender.createTransport({
+        service: 'gmail',
+        auth: {
+          user: 'somaiyachatbot@gmail.com',
+          pass: 'saheb@123'
+        }
+    });
+  let text = "";
+  for (message of conversation) {
+    text += message.from + " : " + message.message + "\n";
+  }
+  console.log(text);
+      
+      var mailOptions = {
+        from: 'BOT <somaiyachatbot@gmail.com>',
+        to: email,
+        cc: 'somaiyachatbot@gmail.com',
+        subject: 'Chat history with SAHEB',
+        text: text
+      };
+      return new Promise((resolve,reject)=>{
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+              reject(error);
+    
+            } else {
+              console.log('Email sent: ' + info.response);
+              resolve(info.response);
+            }
+          });
+      })
+      
+};
+
 
 module.exports.sendEmail = sendEmail;
 module.exports.sendResponseEmail = sendResponseEmail;
+module.exports.sendChatHistory = sendChatHistory;

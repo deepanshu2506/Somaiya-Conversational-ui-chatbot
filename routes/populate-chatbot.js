@@ -85,7 +85,18 @@ router.post('/send_email', async (req, res) => {
         result.catch((error) => {
             res.send({code:0 , message: 'email not sent'});
         });
-    });
+});
+
+
+router.post('/send_chat_history', (req, res) => {
+    console.log(req.body.conversation);
+    emailController.sendChatHistory(req.body.conversation, req.body.email)
+        .then((data) => {
+            res.send({ code: 1 });
+        }).catch((data) => {
+            res.send({ code: 0 }); 
+        });
+});
 
 //Export router to make them available in other files
 module.exports = router;
