@@ -1,6 +1,7 @@
 //Importing 'nodeemailer' module
 var emailSender = require('nodemailer');
 //Send email to somaiya and cc to user.
+
 var sendEmail = (question , email)=>{
     var transporter = emailSender.createTransport({
         service: 'gmail',
@@ -15,7 +16,7 @@ var sendEmail = (question , email)=>{
         to: email,
         cc: 'somaiyachatbot@gmail.com',
         subject: 'Somaiya helper BOT',
-        text: 'Please Help me with the following question: \n\n' + question 
+        html: '<h2>Please Help me with the following question:</h2> <br><br><h4>' + question + '</h4>' 
       };
       return new Promise((resolve,reject)=>{
         transporter.sendMail(mailOptions, function(error, info){
@@ -48,7 +49,7 @@ var sendResponseEmail = (answer,question , email)=>{
         to: email,
         cc: 'somaiyachatbot@gmail.com',
         subject: 'Regarding your query on Somaiya Admission',
-        text: question + "\n\n\nResponse: \n" + answer
+        html: question + "<h2>Response:</h2> <br><h4>" + answer + '</h4>'
       };
       return new Promise((resolve,reject)=>{
         transporter.sendMail(mailOptions, function(error, info){
@@ -75,16 +76,18 @@ var sendChatHistory = (conversation, email)=>{
     });
   let text = "";
   for (message of conversation) {
-    text += message.from + " : " + message.message + "\n";
+    text += message.from + " : " + message.message + "<br>";
   }
+  text = '<h2>' + text + '</h2>';
   console.log(text);
       
       var mailOptions = {
         from: 'BOT <somaiyachatbot@gmail.com>',
         to: email,
+        contentType: 'text/html',
         cc: 'somaiyachatbot@gmail.com',
         subject: 'Chat history with SAHEB',
-        text: text
+        html: text
       };
       return new Promise((resolve,reject)=>{
         transporter.sendMail(mailOptions, function(error, info){
