@@ -19,9 +19,21 @@ function loadInitial() {
 
       
     }
-      if (conversation[conversation.length - 1].type == 3) {
+    let lastQuery = conversation[conversation.length - 1]
+      if ( lastQuery.type == 3) {
             console.log('answer')
-        }
+    }
+      else if (lastQuery.type == 1) {
+          console.log(lastQuery.id)
+          $.post('/chat/get_options',{next_options:lastQuery.id},function(data){
+                for(option of data){
+                    $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
+                }
+          });
+           $('.chat').animate({
+               scrollTop: $('.chat')[0].scrollHeight
+           },"slow");
+    }
 }
 
 //Function to display first question and it's options by appending option buttons
@@ -32,7 +44,7 @@ function start_chat() {
             $('.chat-content').append("<div class ='message-received'>"+data+"</div>").hide().fadeIn(400);
             localStorage.setItem('conversation', JSON.stringify([]));
             var conversation = JSON.parse(localStorage.conversation);
-            conversation.push({ from: 'SAHEB', message: data ,type:1});
+            conversation.push({ from: 'SAHEB', message: data ,type:1 , id:1});
             localStorage.setItem('conversation', JSON.stringify(conversation));
         });
         $.post('/chat/get_options',{'next_options':'1'},(data)=>{
@@ -99,7 +111,7 @@ $('.options').on('click','.optionbtn',function(){
                 //Create div to display reply message i.e. next question
                 var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
                 var conversation = JSON.parse(localStorage.conversation);
-                conversation.push({ from: 'SAHEB', message: data.question, type:1 });
+                conversation.push({ from: 'SAHEB', message: data.question, type:1 , id:data.id});
                 localStorage.setItem('conversation', JSON.stringify(conversation));
                 msgrcd.hide();
                 $('.chat-content').append(msgrcd);
@@ -194,7 +206,7 @@ $('body').on('click', '.send-email', function () {
     $.post('/chat/next_question', { 'next_question': 1 }, function (data) {
              var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
              var conversation = JSON.parse(localStorage.conversation);
-            conversation.push({ from: 'SAHEB', message: data.question,type:1 });
+            conversation.push({ from: 'SAHEB', message: data.question,type:1,id:1 });
             localStorage.setItem('conversation', JSON.stringify(conversation));
                     msgrcd.hide();
                     $('.chat-content').append(msgrcd);
@@ -250,7 +262,7 @@ $('.chat-content').on('click','.send',function(){
             $.post('/chat/next_question',{'next_question':1},function(data){
              var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
              var conversation = JSON.parse(localStorage.conversation);
-            conversation.push({ from: 'SAHEB', message: data.question ,type:1});
+            conversation.push({ from: 'SAHEB', message: data.question ,type:1,id:1});
             localStorage.setItem('conversation', JSON.stringify(conversation));
                     msgrcd.hide();
                     $('.chat-content').append(msgrcd);
