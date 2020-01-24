@@ -3,23 +3,53 @@ var chatboxOpen = false;
 var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 let flagFirst = false;
 
-//Function to display first question and it's options by appending option buttons
-function start_chat(){
-    $.get('/chat/start',(data)=>{
-        $('.chat-content').append("<div class ='message-received'>"+data+"</div>").hide().fadeIn(400);
-        localStorage.setItem('conversation', JSON.stringify([]));
-        var conversation = JSON.parse(localStorage.conversation);
-        conversation.push({ from: 'SAHEB', message: data });
-        localStorage.setItem('conversation', JSON.stringify(conversation));
-    });
-    $.post('/chat/get_options',{'next_options':'1'},(data)=>{
-        for(option of data){
-            $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
+function loadInitial() {
+    let conversation = JSON.parse(localStorage.conversation);
+    for (message of conversation) {
+        if (message.type == 1){
+            $('.chat-content').append("<div class ='message-received'>" + message.message + "</div>");
         }
-    });
+        else if (message.type == 2) {
+            $('.chat-content').append("<div class ='message-sent'>" + message.message + "</div>");
+            
+        }
+        else if (message.type == 3) {
+            $('.chat-content').append("<div class ='message-received'>" + message.message + "</div>");
+        }
+
+      
+    }
+      if (conversation[conversation.length - 1].type == 3) {
+            console.log('answer')
+        }
 }
 
-//Function to open and close chat box after click on arrow
+//Function to display first question and it's options by appending option buttons
+function start_chat() {
+    // console.log(JSON.parse(localStorage.conversation).length)
+    if (localStorage.conversation == undefined ||localStorage.conversation == '[]' || JSON.parse(localStorage.conversation).length == 1) {
+         $.get('/chat/start',(data)=>{
+            $('.chat-content').append("<div class ='message-received'>"+data+"</div>").hide().fadeIn(400);
+            localStorage.setItem('conversation', JSON.stringify([]));
+            var conversation = JSON.parse(localStorage.conversation);
+            conversation.push({ from: 'SAHEB', message: data ,type:1});
+            localStorage.setItem('conversation', JSON.stringify(conversation));
+        });
+        $.post('/chat/get_options',{'next_options':'1'},(data)=>{
+            for(option of data){
+                $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
+            }
+            
+            $('.options').children()
+        });
+    }
+    else {
+        loadInitial();
+       
+    }
+}
+    
+    //Function to open and close chat box after click on arrow
 $('#arrow').click(()=>{
     
     if(!chatboxOpen){
@@ -54,9 +84,9 @@ $('.options').on('click','.optionbtn',function(){
     //Create a div to display new message i.e. selected option button
     var newmsg = $("<div class ='message-sent'>" + $(this).text() + "</div>");
     var conversation = JSON.parse(localStorage.conversation);
-    conversation.push({ from: 'user', message: $(this).text() });
+    conversation.push({ from: 'user', message: $(this).text(), type:2 });
     localStorage.setItem('conversation', JSON.stringify(conversation));
-    newmsg.hide();
+    newmsg.hide(); 
     $('.chat-content').append(newmsg);
     newmsg.fadeIn(400);
     //Option button's value is next question associated with that option
@@ -69,7 +99,7 @@ $('.options').on('click','.optionbtn',function(){
                 //Create div to display reply message i.e. next question
                 var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
                 var conversation = JSON.parse(localStorage.conversation);
-                conversation.push({ from: 'SAHEB', message: data.question });
+                conversation.push({ from: 'SAHEB', message: data.question, type:1 });
                 localStorage.setItem('conversation', JSON.stringify(conversation));
                 msgrcd.hide();
                 $('.chat-content').append(msgrcd);
@@ -117,7 +147,7 @@ $('.options').on('click','.optionbtn',function(){
             //Create a div to display answer to user, here 'data' holds final answer
             var msgrcd = $("<div class ='message-received'>" + data + "</div>");
             var conversation = JSON.parse(localStorage.conversation);
-            conversation.push({ from: 'SAHEB', message: data });
+            conversation.push({ from: 'SAHEB', message: data , type:3 });
             localStorage.setItem('conversation', JSON.stringify(conversation));
             msgrcd.hide();
             $('.chat-content').append(msgrcd);
@@ -164,11 +194,12 @@ $('body').on('click', '.send-email', function () {
     $.post('/chat/next_question', { 'next_question': 1 }, function (data) {
              var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
              var conversation = JSON.parse(localStorage.conversation);
-            conversation.push({ from: 'SAHEB', message: data.question });
+            conversation.push({ from: 'SAHEB', message: data.question,type:1 });
             localStorage.setItem('conversation', JSON.stringify(conversation));
                     msgrcd.hide();
                     $('.chat-content').append(msgrcd);
-                    msgrcd.fadeIn(400);
+        msgrcd.fadeIn(400);
+        textBoxDisplayed = false
                     $('.chat').animate({
                         scrollTop: $('.chat')[0].scrollHeight}, "slow");
                     $('.optionbtn').fadeOut(400);
@@ -219,7 +250,7 @@ $('.chat-content').on('click','.send',function(){
             $.post('/chat/next_question',{'next_question':1},function(data){
              var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
              var conversation = JSON.parse(localStorage.conversation);
-            conversation.push({ from: 'SAHEB', message: data.question });
+            conversation.push({ from: 'SAHEB', message: data.question ,type:1});
             localStorage.setItem('conversation', JSON.stringify(conversation));
                     msgrcd.hide();
                     $('.chat-content').append(msgrcd);
@@ -244,7 +275,5 @@ $('.chat-content').on('click','.send',function(){
                 //Display first question and it's options by appending option buttons
                
         });
-        
-
     }
 });
