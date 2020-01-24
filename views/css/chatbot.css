@@ -67,6 +67,7 @@ body{
     box-sizing: border-box;
     padding: 5px;
     z-index: 0;
+    font-size: 13px;
 }
 .msgcont{
   width: 100%;
@@ -78,6 +79,8 @@ body{
     width: 100%;
     padding: 0 10px;
     display: inline-block;
+    font-size: 13px;
+
 
 }
 .chat::-webkit-scrollbar {
@@ -85,10 +88,10 @@ body{
 }
 
   .message-received {
-    max-width: 80%;
+      max-width: 70%;
       background-color:#a12023;
-      z-index: 1;
-      font-size: 15px;
+      /* z-index: 1; */
+      /* font-size: 15px; */
       box-sizing: border-box;
       padding: 10px;
       margin: 7px;
@@ -105,7 +108,7 @@ body{
 
     background-color:#a12023;
       z-index: 1;
-      font-size: 15px;
+      /* font-size: 15px; */
       box-sizing: border-box;
       padding: 10px;
       margin: 7px;
@@ -125,7 +128,7 @@ body{
     border-radius: 10px;
     border: 1px solid #eee;
     padding-left: 10px;
-    font-size: 18px;
+    /* font-size: 18px; */
     outline: none;
     margin-bottom: 10px;
   }
@@ -147,7 +150,7 @@ body{
   .optionbtn{
     height: 35px;
     padding: 10px 15px;
-    font-size: 15px;
+    /* font-size: 15px; */
     border-radius: 10px;
     margin: 5px 10px 5px 0;
     border: none;
@@ -155,5 +158,15 @@ body{
     color: antiquewhite;
     outline: none;
     float: left;
+  }
+
+  .disclaimer{
+    background-color: #fff5c4;
+    width: 90%;
+    margin: 10px auto;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
   }
   
