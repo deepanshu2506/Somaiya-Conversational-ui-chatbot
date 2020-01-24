@@ -11,6 +11,10 @@ const emailController = require('../controllers/Email');
 //Importing 'body-parser' module
 var bodyParser = require('body-parser');
 
+
+const publicIp = require('public-ip');
+const geoip = require('geoip-lite');
+
 //Returns middleware that only parses json
 router.use(bodyParser.json()); 
 //Returns middleware that only parses urlencoded bodies
@@ -63,15 +67,35 @@ router.post('/answer' , (req,res)=>{
 });
 
 //For route 'send_email' send user query as email to somaiya
-router.post('/send_email' , (req,res)=>{
-    var result = emailController.sendEmail(req.body.question , req.body.email);
-    result.then(()=>{
-        res.send('sent');
-    });
+router.post('/send_email', async (req, res) => {
 
-    result.catch((error)=>{
-        res.send('error');
-    })
+    const ip = await publicIp.v4();
+    const geoLocation = geoip.lookup(ip);    
+    chatController.add_user_question(req.body.question,req.body.email , geoLocation.city)
+        .then(() => {
+        })
+        .catch(() => {
+            res.send({code: 0 , message: 'error in adding question to db'})
+        });
+    
+    var result = emailController.sendEmail(req.body.question , req.body.email);
+        result.then(() => {
+            res.send({code: 1, message: "email sent successfully" });
+        });
+        result.catch((error) => {
+            res.send({code:0 , message: 'email not sent'});
+        });
+});
+
+
+router.post('/send_chat_history', (req, res) => {
+    console.log(req.body.conversation);
+    emailController.sendChatHistory(req.body.conversation, req.body.email)
+        .then((data) => {
+            res.send({ code: 1 });
+        }).catch((data) => {
+            res.send({ code: 0 }); 
+        });
 });
 
 //Export router to make them available in other files

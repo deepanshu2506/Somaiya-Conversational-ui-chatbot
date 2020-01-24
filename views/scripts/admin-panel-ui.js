@@ -11,7 +11,7 @@ var displayToast = (heading , type , text)=>{
         icon: type,
         showHideTransition: 'slide',
         loader:false,
-        position:{bottom: '20vh' , left:'40%'}
+        position:'bottom-right'
     });
 };
 
@@ -21,8 +21,18 @@ $(document).contextmenu(function(e){
 
 $('.logout').click(() => {
     localStorage.removeItem('jwtToken');
-    window.location.replace("http://192.168.0.104:3000/login");
+    window.location.replace("http://localhost:3000/login");
 });
+
+$('.admin').click(() => {
+    window.location.replace("http://localhost:3000/admin");
+});
+
+$('.queries').click(() => {
+    // localStorage.removeItem('jwtToken');
+    window.location.replace("http://localhost:3000/admin/queries");
+});
+
 
 $('body').on('contextmenu','.question-container',function(e){
     e.preventDefault();

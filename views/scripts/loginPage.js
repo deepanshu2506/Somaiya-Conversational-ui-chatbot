@@ -12,7 +12,7 @@ $('.login_btn').click(function () {
                     'opacity': 1
                 },100);
                 setTimeout(() => {
-                    window.location.replace("http://192.168.0.104:3000/admin");    
+                    window.location.replace("http://localhost:3000/admin");    
                 } , 1500);
 
                 

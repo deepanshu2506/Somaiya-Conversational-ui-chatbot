@@ -4,14 +4,15 @@ var displayToast = (heading , type , text)=>{
         text: text,
         icon: type,
         showHideTransition: 'slide',
-        loader:false,
-        position:{bottom: '20vh' , left:'40%'}
+        loader: false,
+        position:"bottom-right"
+        // position:{bottom: '20vh' , left:'40%'}
     });
 };
 
 
 $(document).ready(function () {
-    console.log(localStorage.jwtToken)
+    // console.log(localStorage.jwtToken)
     if (localStorage.jwtToken != undefined) {
         $.ajax({
             method: 'POST', url: '/admin/get_question_data', headers: { Authorization: localStorage.jwtToken }, data: { id: 1 }, success: function (data) {
@@ -42,13 +43,13 @@ $(document).ready(function () {
             }, error: function (error) {
                 console.log('error');
                 localStorage.removeItem('jwtToken');
-                window.location.replace("http://192.168.0.104:3000/login");
+                window.location.replace("http://localhost:3000/login");
 
             }
         });
     }
     else {
-                window.location.replace("http://192.168.0.104:3000/login");
+                window.location.replace("http://localhost:3000/login");
         
     }
 

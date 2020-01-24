@@ -4,9 +4,15 @@ const path = require('path');
 var bodyParser = require('body-parser');
 var adminController = require('../controllers/adminFuncs');
 const authMiddleware = require('../middleware/authMiddleware');
+const queriesRoutes = require('./queries');
 router.use(bodyParser.json()); 
 router.use(bodyParser.urlencoded({ extended: true }));
+
+
 // router.use(authMiddleware.validateToken);
+
+router.use('/queries', queriesRoutes)
+
 
 router.get("/",(req,res)=>{
     res.sendFile(path.resolve(path.join(__dirname + '/../views/html/admin_dash.html')));

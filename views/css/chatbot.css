@@ -130,7 +130,7 @@ body{
     margin-bottom: 10px;
   }
 
-  .send{
+  .send , .send-email{
     margin-left: 5px;
 
     height: 35px;

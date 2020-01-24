@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Somaiya Admission Helper Bot</title>
+    <link rel="stylesheet" type="text/css" href="../css/queries.css" />
+    <link rel="stylesheet" type="text/css" href="../css/jquery.toast.min.css" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <script type="text/javascript" src="../scripts/jquery.js"></script>
+    <script type="text/javascript" src="../scripts/jquery.toast.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+</head>
+<body>
+    <div id="display-question-popup" class="popup">
+        <img src="../resources/cancel.svg" width="30px" height="30px" alt="">
+        <p></p>
+    </div>
+    <div id="send-email-popup" class="popup">
+        <img src="../resources/cancel.svg" width="30px" height="30px" alt="">
+        <p>Send Reply</p>
+        <input type="text" readonly class="textbox emailbox"/>
+        <div class="question"></div>
+        <textarea name='answer' placeholder="Type the Response" class="answerbox textbox" rows="4"
+            style="height: 150px;"></textarea>
+        <p class="error"> </p>
+        <button class="yes">Send</button>
+    </div>
+
+
+    
+
+
+    <div id="header">
+        <h3>SAHEB Internal Admin Panel</h3>
+        <button class="header-button admin">Structure</button>
+        <button class="header-button queries">Queries</button>
+        <button class="header-button logout">Logout</button>
+        <img src="../resources/Somaiya_logo.svg" alt="">
+    </div>
+    <div class="status dropdown">
+        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">filter by status
+            <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li>Replied</li>
+            <li>Not Replied</li>
+            <li>All</li>
+        </ul>
+    </div>
+    <div id="content">
+        <div id="content-header">
+            <div>Location</div>
+            <div>Email Address</div>
+            <div>Date</div>
+            <div>time</div>
+            <!-- <button class="reply-button btn btn-success dropdown-toggle" type="button">Reply</button> -->
+        </div>
+        <div class="query-container">
+            
+        </div>
+    </div>
+
+    <script src="../scripts/queriesPage.js"></script>
+</body>
+</html>
