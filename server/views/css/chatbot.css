@@ -147,7 +147,7 @@ body{
     
   }
 
-  .optionbtn{
+  .optionbtn , .startbtn{
     height: 35px;
     padding: 10px 15px;
     /* font-size: 15px; */

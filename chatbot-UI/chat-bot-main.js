@@ -3,7 +3,7 @@ var chatboxOpen = false;
 var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 let flagFirst = false;
 
-function loadInitial() {
+function loadInitialState() {
     let conversation = JSON.parse(localStorage.conversation);
     for (message of conversation) {
         if (message.type == 1){
@@ -21,7 +21,8 @@ function loadInitial() {
     }
     let lastQuery = conversation[conversation.length - 1]
       if ( lastQuery.type == 3) {
-            console.log('answer')
+          console.log('answer')
+          $('.options').append("<button class = 'optionbtn' value = '1'>Start Over</button>")
     }
       else if (lastQuery.type == 1) {
           console.log(lastQuery.id)
@@ -30,10 +31,14 @@ function loadInitial() {
                     $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
                 }
           });
-           $('.chat').animate({
+          
+    }
+      else if (lastQuery.message == 'Not Listed') {
+          $('.options').append("<button class = 'optionbtn' value = '1'>Start Over</button>")
+    }
+     $('.chat').animate({
                scrollTop: $('.chat')[0].scrollHeight
            },"slow");
-    }
 }
 
 //Function to display first question and it's options by appending option buttons
@@ -52,11 +57,10 @@ function start_chat() {
                 $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
             }
             
-            $('.options').children()
         });
     }
     else {
-        loadInitial();
+        loadInitialState();
        
     }
 }
@@ -72,7 +76,10 @@ $('#arrow').click(()=>{
             queue: false,
             complete: () => {
                 if (!flagFirst) {
-                    start_chat();
+                    
+                    var textBox = $("<input type = 'text' name = 'email' class = 'other email start_email' placeholder='Enter your email' required/><input type = 'tel' name = 'other' placeholder = 'enter your phone number' class = 'other phone' required/>");
+                    $('.chat-content').append(textBox)
+                    $('.options').append("<button class = 'startbtn'>Start chat</button>");
                     flagFirst = true;
                 }
             }
@@ -91,6 +98,29 @@ $('#arrow').click(()=>{
     }
 });            
 
+
+$('body').on('click', '.startbtn', function () {
+    email = $('.start_email').val()
+    phone = $('.phone').val()
+
+    if (email == '' || !email.match(email_regex)){
+        localStorage.setItem('email', "");
+    }
+    else {
+        localStorage.setItem('email', email);
+    }
+    if (phone == '') {
+        localStorage.setItem('phone','')
+    }
+    else {
+        localStorage.setItem('phone', phone);
+
+    }
+
+    $('.chat-content').children().remove();
+    $('.options').children().remove();
+    start_chat(); 
+});
 //Action to be taken after click on a option button
 $('.options').on('click','.optionbtn',function(){
     //Create a div to display new message i.e. selected option button
@@ -138,9 +168,14 @@ $('.options').on('click','.optionbtn',function(){
         newmsg.hide();
         $('.chat-content').append(newmsg);
         newmsg.fadeIn(400);
-        if(!textBoxDisplayed){
-            //Create text box for email and query and button to send email
-            var textBox = $("<input type = 'text' name = 'email' class = 'other email' placeholder='Enter your email' required/><input type = 'text' name = 'other' placeholder = 'enter your query' class = 'other text' required/><button class ='send '><i class = 'material-icons'>arrow_forward</i></button>");
+        if (!textBoxDisplayed) {
+            var textBox = null;
+            if (localStorage.email != "") {
+                 textBox= $("<input type = 'text' name = 'email' class = 'other email' placeholder='Enter your email' required/><input type = 'text' name = 'other' placeholder = 'enter your query' class = 'other text' required/><button class ='send '><i class = 'material-icons'>arrow_forward</i></button>");
+            }
+            else {
+                textBox = $("<input type = 'text' name = 'other' placeholder = 'enter your query' class = 'other text' required/><button class ='send '><i class = 'material-icons'>arrow_forward</i></button>");
+            }
             textBox.hide();
             $('.chat-content').append(textBox);
             textBox.delay(400).fadeIn(400);
@@ -178,58 +213,65 @@ $('.options').on('click','.optionbtn',function(){
         });
     }
 });
-$('.options').on('click', '.email', function (e) {
-    
-    
-    var textBox = $("<input type = 'text' name = 'email' class = 'other email history-email' placeholder='Enter your email' required/><button class ='send-email '><i class = 'material-icons'>arrow_forward</i></button>");
-    textBox.hide();
-    $('.chat-content').append(textBox);
-    textBox.delay(400).fadeIn(400);
-    textBoxDisplayed = true;
-    $('.chat').animate({
-        scrollTop: $('.chat')[0].scrollHeight}, "slow");
-    $(this).prop('disabled', true);
-    
-    // $.post('/chat/send_chat_history', {conversation:conversation}, function (response) {
-        
-    // });
-});
 
-
-$('body').on('click', '.send-email', function () {
+function sendEmail(email) {
     var conversation = JSON.parse(localStorage.conversation);
     conversation.pop();
     console.log(conversation);
-    let email = $('.history-email').last().val();
-    console.log(email);
+    
     localStorage.setItem('conversation', JSON.stringify([]));
+    $('.chat-content').append("<div class ='message-received'>History sent to: <br>" + email + "</div>");
+    
     $.post('/chat/next_question', { 'next_question': 1 }, function (data) {
-             var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
-             var conversation = JSON.parse(localStorage.conversation);
-            conversation.push({ from: 'SAHEB', message: data.question,type:1,id:1 });
+            var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
+            var conversation = JSON.parse(localStorage.conversation);
+            conversation.push({ from: 'SAHEB', message: data.question,type:1, id:1 });
             localStorage.setItem('conversation', JSON.stringify(conversation));
-                    msgrcd.hide();
-                    $('.chat-content').append(msgrcd);
-        msgrcd.fadeIn(400);
-        textBoxDisplayed = false
-                    $('.chat').animate({
-                        scrollTop: $('.chat')[0].scrollHeight}, "slow");
-                    $('.optionbtn').fadeOut(400);
-                    //Clear previous options
-                    $('options').empty();
-                    //Add new options
-                    $.post('/chat/get_options',{'next_options':data.id},function(data){
-                        for(option of data){
-                            $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
-                        }
-                    }); 
-                });
+            msgrcd.hide();
+            $('.chat-content').append(msgrcd);
+            msgrcd.fadeIn(400);
+            textBoxDisplayed = false
+            $('.chat').animate({
+                scrollTop: $('.chat')[0].scrollHeight}, "slow");
+            $('.optionbtn').fadeOut(400);
+            //Clear previous options
+            $('options').empty();
+            //Add new options
+            $.post('/chat/get_options',{'next_options':data.id},function(data){
+                for(option of data){
+                    $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
+                }
+            }); 
+    });
     $.post('/chat/send_chat_history', { conversation: conversation, email: email }, function (response) {
         console.log(response)
         
     });
-
+}
+$('.options').on('click', '.email', function (e) {
     
+    if (localStorage.email == "") {
+        var textBox = $("<input type = 'text' name = 'email' class = 'other email history-email' placeholder='Enter your email' required/><button class ='send-email '><i class = 'material-icons'>arrow_forward</i></button>");
+        textBox.hide();
+        $('.chat-content').append(textBox);
+        textBox.delay(400).fadeIn(400);
+        textBoxDisplayed = true;
+        $('.chat').animate({
+            scrollTop: $('.chat')[0].scrollHeight}, "slow");
+        $(this).prop('disabled', true);
+    }
+    else {
+        sendEmail(localStorage.email);
+    }
+    
+    
+});
+ 
+
+$('body').on('click', '.send-email', function () {
+    let email = $('.history-email').last().val();
+    console.log(email);
+    sendEmail(email)
 });
 
 
