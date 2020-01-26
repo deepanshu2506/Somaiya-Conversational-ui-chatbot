@@ -8,6 +8,9 @@ body{
     overflow: hidden;
     width: 100%;
 }
+#close{
+  display: none;
+}
 .chatbot{
     bottom: -420px;
     /* bottom: 0; */
@@ -17,7 +20,7 @@ body{
     height: 470px;
     overflow: hidden;
     /* overflow-x: scroll; */
-    background: url('/resources/background.png');
+    
     background-size: 120%;
     box-shadow: 0 -4px 8px 3px rgba(0, 0, 0, 0.2), 0 -10px 20px 10px rgba(0, 0, 0, 0.19);
 
@@ -34,6 +37,9 @@ body{
     display: flex;
     align-items: center;
     z-index: 100;
+}
+.bot-icon{
+  display: none;
 }
 #logo{
     height: 47px;
@@ -60,7 +66,13 @@ body{
   overflow-y: scroll;
   float:  left;
   max-height: 420px;
+  /* background: url('/resources/background.png'); */
 
+}
+.wrapper{
+  width: 100%;
+  background: url('/resources/background.png');
+  height: 420px;
 }
 .chat-content{
     width: 100%;

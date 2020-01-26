@@ -3,23 +3,35 @@
     <head>
         <title>Somaiya Admission Helper Bot</title>
         <link rel="stylesheet" type="text/css" href="css/chatbot.css"/>
+        <link rel="stylesheet" type="text/css" href="css/chatbot-mobile.css" />
+
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
         <script type="text/javascript" src="scripts/jquery.js"></script>
     </head>
     <body>
+
+        <div class="bot-icon">
+            <div id="online"></div>
+            <img id="mobile-logo" src="resources/somaiya_logo.svg">
+        </div>
         <div class="chatbot">
+                <img id="close" src="resources/close.svg" alt="">
             <div class="chatbot-header">
                 
                 <img id="logo" src="resources/somaiya_logo.svg">
                 <svg width="14" height="14">
-                        <circle cx="7" cy="7" r="7" fill ='#05b714'/>
-                    </svg>
+                    <circle cx="7" cy="7" r="7" fill ='#05b714'/>
+                </svg>
                 <h3> Ask Me Anything</h3>
                 <i id="arrow" class="material-icons" style="font-size:36px;cursor: pointer;">expand_less</i>
-
+                
             </div>
+            <div class="wrapper">
             <div class="chat">
                 <div class="chat-content">
                     <div class="disclaimer">All user information and conversations are protected by somaiya instutions</div>
@@ -27,6 +39,7 @@
                 <div class="options">
     
                 </div>
+            </div>
             </div>
             
         </div>

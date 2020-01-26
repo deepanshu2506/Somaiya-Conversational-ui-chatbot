@@ -32,9 +32,25 @@ function loadInitialState() {
                 }
           });
           
+          
     }
       else if (lastQuery.message == 'Not Listed') {
           $('.options').append("<button class = 'optionbtn' value = '1'>Start Over</button>")
+    }
+      else {
+           $.get('/chat/start',(data)=>{
+            $('.chat-content').append("<div class ='message-received'>"+data+"</div>").hide().fadeIn(400);
+            localStorage.setItem('conversation', JSON.stringify([]));
+            var conversation = JSON.parse(localStorage.conversation);
+            conversation.push({ from: 'SAHEB', message: data ,type:1 , id:1});
+            localStorage.setItem('conversation', JSON.stringify(conversation));
+        });
+        $.post('/chat/get_options',{'next_options':'1'},(data)=>{
+            for(option of data){
+                $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
+            }
+            
+        });
     }
      $('.chat').animate({
                scrollTop: $('.chat')[0].scrollHeight
@@ -66,7 +82,7 @@ function start_chat() {
 }
     
     //Function to open and close chat box after click on arrow
-$('#arrow').click(()=>{
+$('.chatbot-header').click(()=>{
     
     if(!chatboxOpen){
         $('.chatbot').animate({
@@ -96,7 +112,29 @@ $('#arrow').click(()=>{
         
         chatboxOpen = false;
     }
-});            
+});
+
+
+
+$('.bot-icon').click(()=>{
+    $('.chatbot').fadeIn({
+        duration: 300,
+        queue: false,
+        complete: () => {
+            if (!flagFirst) {
+                
+                var textBox = $("<input type = 'text' name = 'email' class = 'other email start_email' placeholder='Enter your email' required/><input type = 'tel' name = 'other' placeholder = 'enter your phone number' class = 'other phone' required/>");
+                $('.chat-content').append(textBox)
+                $('.options').append("<button class = 'startbtn'>Start chat</button>");
+                flagFirst = true;
+            }
+        }
+    });
+});
+
+$('#close').click(() => {
+    $('.chatbot').fadeOut(300);
+});
 
 
 $('body').on('click', '.startbtn', function () {
