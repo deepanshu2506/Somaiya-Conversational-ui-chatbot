@@ -16,14 +16,17 @@ let controllers = {
                 if (results.length == 0) {
                     res.send({code:0, message:'username incorrect'})
                 }
-                if (req.body.password === results[0].password) {
-                    var token = jwt.sign({user: req.body.email}, config.jwtSecretKey , {expiresIn:'3h'});
-                    token = "Bearer " + token;
-                    res.send({ code: 1, message: 'user authenticated', token });    
-                }
                 else {
-                    res.send({ code: 0, message: 'password does not match' });
+                    if (req.body.password === results[0].password) {
+                        var token = jwt.sign({user: req.body.email}, config.jwtSecretKey , {expiresIn:'3h'});
+                        token = "Bearer " + token;
+                        res.send({ code: 1, message: 'user authenticated', token });    
+                    }
+                    else {
+                        res.send({ code: 0, message: 'password does not match' });
+                    }   
                 }
+                
             });
             conn.release();        
         });
