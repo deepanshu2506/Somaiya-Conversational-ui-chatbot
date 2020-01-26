@@ -12,7 +12,10 @@ let controllers = {
             if(err){
                 res.send({code : 0 , message : 'could  not connect '})
             }
-            conn.query(get_user_query,req.body.email,(err,results,fields) =>{
+            conn.query(get_user_query, req.body.email, (err, results, fields) => {
+                if (results.length == 0) {
+                    res.send({code:0, message:'username incorrect'})
+                }
                 if (req.body.password === results[0].password) {
                     var token = jwt.sign({user: req.body.email}, config.jwtSecretKey , {expiresIn:'3h'});
                     token = "Bearer " + token;
