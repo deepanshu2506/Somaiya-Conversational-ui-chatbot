@@ -36,9 +36,10 @@ $('.queries').click(() => {
 
 $('body').on('contextmenu','.question-container',function(e){
     e.preventDefault();
+    console.log(e.clientY + " ");
     $('#question-menu').css({
-        top: e.pageY + "px",
-        left: e.pageX + "px"
+        top: e.clientY + "px",
+        left: e.clientX + "px"
     }).fadeIn(300);
     currQuestion = $(this);
 });
@@ -51,8 +52,8 @@ $(document).bind("mousedown", function (e) {
 $('body').on('contextmenu','.answer-container',function(e){
     e.preventDefault();
     $('#answer-menu').css({
-        top: e.pageY + "px",
-        left: e.pageX + "px"
+        top: e.clientY + "px",
+        left: e.clientX + "px"
     }).fadeIn(300);
     currAnswer = $(this);
 });
@@ -79,8 +80,8 @@ $('body').on('contextmenu','.option',function(e){
         }
     
         $('#option-menu').css({
-            top: e.pageY + "px",
-            left: e.pageX + "px"
+            top: e.clientY + "px",
+            left: e.clientX + "px"
         }).fadeIn(300);
         currOption =$(this); 
     }else{
