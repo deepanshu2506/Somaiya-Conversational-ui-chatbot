@@ -208,7 +208,7 @@ $('.options').on('click','.optionbtn',function(){
         newmsg.fadeIn(400);
         if (!textBoxDisplayed) {
             var textBox = null;
-            if (localStorage.email != "") {
+            if (localStorage.email == "") {
                  textBox= $("<input type = 'text' name = 'email' class = 'other email' placeholder='Enter your email' required/><input type = 'text' name = 'other' placeholder = 'enter your query' class = 'other text' required/><button class ='send '><i class = 'material-icons'>arrow_forward</i></button>");
             }
             else {
