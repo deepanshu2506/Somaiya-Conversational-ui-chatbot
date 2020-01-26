@@ -9,11 +9,13 @@
     <script type="text/javascript" src="../scripts/jquery.toast.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src = 'https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.15/lodash.core.min.js'></script>
     
 </head>
 <body>
     <div id="display-question-popup" class="popup">
         <img src="../resources/cancel.svg" width="30px" height="30px" alt="">
+        <p></p>
         <p></p>
     </div>
     <div id="send-email-popup" class="popup">
@@ -22,6 +24,16 @@
         <input type="text" readonly class="textbox emailbox"/>
         <div class="question"></div>
         <textarea name='answer' placeholder="Type the Response" class="answerbox textbox" rows="4"
+            style="height: 150px;"></textarea>
+        <p class="error"> </p>
+        <button class="yes">Send</button>
+    </div>
+
+    <div id="send-email-multiple-popup" class="popup">
+        <img src="../resources/cancel.svg" width="30px" height="30px" alt="">
+        <p>Send Reply</p>
+        <input type="text" readonly class="textbox emailbox-multiple" />
+        <textarea name='answer' placeholder="Type the Response" class="multiple-answerbox textbox" rows="4"
             style="height: 150px;"></textarea>
         <p class="error"> </p>
         <button class="yes">Send</button>
@@ -38,19 +50,24 @@
         <button class="header-button logout">Logout</button>
         <img src="../resources/Somaiya_logo.svg" alt="">
     </div>
-    <div class="status dropdown">
-        <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">filter by status
-            <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            <li>Replied</li>
-            <li>Not Replied</li>
-            <li>All</li>
-        </ul>
+    <div class="optionbar">
+        <button class="reply-to-all btn btn-success" type="button" disabled>Reply to all</button>
+        <div class="status dropdown">
+            <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown">filter by status
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li>Replied</li>
+                <li>Not Replied</li>
+                <li>All</li>
+            </ul>
+        </div>
     </div>
     <div id="content">
         <div id="content-header">
+            <div></div>
             <div>Location</div>
             <div>Email Address</div>
+            <div></div>
             <div>Date</div>
             <div>time</div>
             <!-- <button class="reply-button btn btn-success dropdown-toggle" type="button">Reply</button> -->

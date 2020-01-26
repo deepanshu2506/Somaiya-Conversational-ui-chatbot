@@ -36,5 +36,15 @@ router.post('/sendReply', authMiddleware.validateToken, async (req, res) => {
         })
 });
 
+router.post('/sendReplyMultiple', authMiddleware.validateToken, async (req, res) => {
+    queriesController.setReplyMultiple(req.body.queries)
+        .then((data) => {
+            res.send({ code: 1 });
+        })
+        .catch(err => {
+            res.send({ code: 0, message: err });
+        });
+});
+
 
 module.exports = router
