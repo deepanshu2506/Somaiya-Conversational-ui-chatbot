@@ -53,7 +53,7 @@ function loadInitialState() {
         });
     }
      $('.chat').animate({
-               scrollTop: $('.chat')[0].scrollHeight
+               scrollTop: $('.chat')[0].scrollHeight+150
            },"slow");
 }
 
@@ -185,7 +185,7 @@ $('.options').on('click','.optionbtn',function(){
                 $('.chat-content').append(msgrcd);
                 msgrcd.fadeIn(400);
                 $('.chat').animate({
-                    scrollTop: $('.chat')[0].scrollHeight}, "slow");
+                    scrollTop: $('.chat')[0].scrollHeight+150}, "slow");
                 $('.optionbtn').fadeOut(400);
                 //Clear previous options
                 $('options').empty();
@@ -220,7 +220,7 @@ $('.options').on('click','.optionbtn',function(){
             textBoxDisplayed = true;
         }
         $('.chat').animate({
-            scrollTop: $('.chat')[0].scrollHeight}, "slow");
+            scrollTop: $('.chat')[0].scrollHeight+150}, "slow");
         $(this).prop('disabled',true);
         
     }
@@ -238,7 +238,7 @@ $('.options').on('click','.optionbtn',function(){
             $('.chat-content').append(msgrcd);
             msgrcd.delay(400).fadeIn(400);
             $('.chat').animate({
-                scrollTop: $('.chat')[0].scrollHeight}, "slow");
+                scrollTop: $('.chat')[0].scrollHeight+150}, "slow");
             $('.optionbtn').fadeOut(400);
             //Clear all previous options
             $('options').empty();
@@ -270,12 +270,13 @@ function sendEmail(email) {
             msgrcd.fadeIn(400);
             textBoxDisplayed = false
             $('.chat').animate({
-                scrollTop: $('.chat')[0].scrollHeight}, "slow");
+                scrollTop: $('.chat')[0].scrollHeight+150}, "slow");
             $('.optionbtn').fadeOut(400);
             //Clear previous options
             $('options').empty();
             //Add new options
-            $.post('/chat/get_options',{'next_options':data.id},function(data){
+        $.post('/chat/get_options', { 'next_options': data.id }, function (data) {
+            console.log(data);
                 for(option of data){
                     $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
                 }
@@ -295,7 +296,7 @@ $('.options').on('click', '.email', function (e) {
         textBox.delay(400).fadeIn(400);
         textBoxDisplayed = true;
         $('.chat').animate({
-            scrollTop: $('.chat')[0].scrollHeight}, "slow");
+            scrollTop: $('.chat')[0].scrollHeight+150}, "slow");
         $(this).prop('disabled', true);
     }
     else {
@@ -337,7 +338,7 @@ $('.chat-content').on('click','.send',function(){
                     $('.chat-content').append(msgrcd);
                     msgrcd.fadeIn(400);
                     $('.chat').animate({
-                        scrollTop: $('.chat')[0].scrollHeight
+                        scrollTop: $('.chat')[0].scrollHeight+150
                     }, "slow");
             $.post('/chat/next_question',{'next_question':1},function(data){
              var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
@@ -348,7 +349,7 @@ $('.chat-content').on('click','.send',function(){
                     $('.chat-content').append(msgrcd);
                     msgrcd.fadeIn(400);
                     $('.chat').animate({
-                        scrollTop: $('.chat')[0].scrollHeight}, "slow");
+                        scrollTop: $('.chat')[0].scrollHeight+150}, "slow");
                     $('.optionbtn').fadeOut(400);
                     //Clear previous options
                     $('options').empty();

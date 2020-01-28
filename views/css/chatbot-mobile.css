@@ -4,9 +4,10 @@
     }
 
     .chatbot-header{
-        width: 100px;
+        /* width: 100px; */
         box-shadow: none;
-        display: none;
+        border-radius: 0px;
+        /* display: none; */
     }
 
 
@@ -55,8 +56,9 @@
     }
     .chat{
         max-height: 100%;
+        overflow-y: scroll;
     }
-    .chatbot-header h3{
+    .chatbot-header i{
         display: none;
     }
     .chatbot-header svg{
@@ -69,5 +71,11 @@
         width: 7vw;
         right: 10px;
         top: 10px;
+    }
+    .options{
+        margin-bottom: 50px;
+    }
+    .chat::-webkit-scrollbar {
+        display: block;
     }
 }

@@ -73,6 +73,7 @@ body{
   width: 100%;
   background: url('/resources/background.png');
   height: 420px;
+  overflow-y: scroll;
 }
 .chat-content{
     width: 100%;
@@ -95,9 +96,7 @@ body{
 
 
 }
-.chat::-webkit-scrollbar {
-  display: none;
-}
+
 
   .message-received {
       max-width: 70%;

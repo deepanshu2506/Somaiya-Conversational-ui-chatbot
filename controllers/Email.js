@@ -76,7 +76,7 @@ var sendChatHistory = (conversation, email)=>{
     });
   let text = "";
   for (message of conversation) {
-    text += message.from + " : " + message.message + "<br>";
+    text += message.from + " : " + message.message + "<br><br>";
   }
   text = '<h2>' + text + '</h2>';
   console.log(text);
