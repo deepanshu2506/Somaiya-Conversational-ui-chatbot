@@ -1,4 +1,5 @@
 var express = require('express');
+const _ = require('lodash');
 var router = express.Router();
 const path = require('path');
 var bodyParser = require('body-parser');
@@ -22,7 +23,8 @@ router.post('/getQueries', authMiddleware.validateToken, async (req, res) => {
             res.send({ code: 1, queries: data });
         })
         .catch((err) => {
-            res.send({ code: 0, message: err });
+            console.log(err)
+            res.send({ code: 1, message: err });
         });
 });
 

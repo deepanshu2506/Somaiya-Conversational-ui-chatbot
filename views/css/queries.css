@@ -129,8 +129,9 @@
 .query div{
     text-align: center;
     height: inherit;
+    box-sizing: border-box;
     line-height: 6.5vh;
-    /* border: 1px solid red; */
+    border: 1px solid transparent;
 }
 .query div{
     width: 15%;
@@ -147,7 +148,14 @@
     /* padding-left: 20px; */
 }
 .query div:nth-child(4){
+    box-sizing: border-box;
     width: 5%;
+    line-height: normal;
+    font-size: 0.9vw;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
     cursor: pointer;
 }
 
@@ -200,8 +208,11 @@
     border-radius: 10px;
 }
 .textbox{
-    width: 90%;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
     height: 35px;
+    max-height: 90px;
     margin-top: 20px;
     font-size: 18px;
     padding: 2px;
@@ -209,6 +220,95 @@
     border: 1px solid #999;
     padding-left: 10px;
     outline: none;
+}
+#similar{
+    width: 100%;
+    max-height: 150px;
+    background-color: white;
+    font-size: 1.5vw;
+    overflow: scroll;
+    margin: 10px 0;
+    /* padding: 0px 10px; */
+}
+
+#no-similar{
+    width: 100%;
+    position: relative;
+    line-height: 150px;
+    float: left;
+    text-align: center;
+    z-index: 10;
+    opacity: 1;
+    display: none;
+    font-size: 2em;
+    color: #f80202;
+}
+.similar-header{
+    width: 100%;
+    margin-top: 10px;
+    /* border: 1px solid red; */
+}
+
+.similar-header h4{
+    float: left;
+    padding-left: 10px;
+}
+
+.similar-header span{
+    font-size: 14px;
+}
+
+.similar-header div{
+    float: right;
+    color: red;
+    margin-right: 2.8%;
+}
+.similar-header div input{
+    width: 1.2vw;
+    height: 1.2vw; float: right;
+    margin-top: 12px;
+    margin-left: 10px;
+}
+#similar img{
+    width: 100%;
+    height: 100px;
+    position: relative;
+    opacity: 0.6;
+    display: none;
+    margin-top: -130px;
+    /* text-align: center; */
+    /* float: left; */
+}
+#similar::-webkit-scrollbar {
+  display: none;
+
+}
+
+#similar ul {
+    list-style-type: none;
+}
+#similar ul li{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    display: flex;
+    flex-direction: row;
+    /* align-content: center; */
+    /* justify-content: center; */
+    /* height: 40px; */
+    /* border: 1px solid red; */
+}
+#similar ul li:nth-child(even){
+    background-color: #fafafa;
+}
+
+#similar ul li input{
+    margin-top: 7px;
+    width: 1.2vw;
+    height: 1.2vw;
+}
+#similar ul li span{
+    width: 96%;
 }
 
 .textbox::-webkit-scrollbar{
@@ -256,7 +356,7 @@
 }
 .view img{
     height: 1.7vw;
-    
+    /* border: 1px solid green; */
 }
 
 

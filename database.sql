@@ -172,6 +172,8 @@ INSERT INTO `users` (`id`, `email_id`, `password`, `last_login`, `date_created`)
 --
 -- Indexes for table `answers`
 --
+ALTER TABLE `other_questions` ADD `groupNo` INT NOT NULL DEFAULT '-1';
+
 ALTER TABLE `answers`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `optionid_unique_key` (`optionid`);

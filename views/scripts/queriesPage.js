@@ -3,6 +3,8 @@ const checkBox = `<div class="round">
     <input type="checkbox" id="checkbox" />
   </div>`;
 const view = "<div class = 'view'><img src = '../resources/eye.svg'/></div>"
+let groups = {};
+
 
 var displayToast = (heading, type, text) => {
     $.toast({
@@ -18,6 +20,89 @@ var displayToast = (heading, type, text) => {
 var currQuery = null;
 let Selectedqueries = [];
 let emailList = [];
+
+let similarEmailReply = [];
+
+
+function populate(status) {
+    groups = {};
+    $.ajax({
+            method: 'POST', url: '/admin/queries/getQueries', headers: { Authorization: localStorage.jwtToken }, data: { replied: status }, success: function (response) {
+                console.log(response)
+                if (response.code == 1) {
+                
+                for (query of response.queries) {
+                    if (groups[query.groupNo] instanceof Array && query.isReplied == 0) {
+                        groups[query.groupNo].push(query);
+                    } else {
+                        groups[query.groupNo] = [query];
+                    }
+                }
+                console.log(groups)
+                    $('.query-container').children().remove();
+                    for (query of response.queries) {   
+                        let location = query.location
+                        let email = query.email;
+                        let question = query.question;
+                        let id = query.id
+                        let reply = query.reply;
+                        let groupNo = query.groupNo;
+                        let postedDate = query.timestamp.slice(0, 19) + 'Z';
+                        postedDate = new Date(postedDate);
+                        
+                        let isReplied = query.isReplied;
+                        let querybox = $('<div class="query"></div>');
+                        querybox.append(checkBox +'<div>' + location + '</div><div>' + question + '</div>'+view+'<div>' + postedDate.getDay() + '/' + (postedDate.getMonth() + 1) + '/' + postedDate.getFullYear() + '</div><div>' + postedDate.getHours() + ':' + postedDate.getMinutes() + '</div>');
+                        querybox.data('meta', { question, email ,id,isReplied,reply,groupNo,groups:groups[query.groupNo]});
+                        
+                        if (isReplied) {
+                            // querybox.hide('')
+                            querybox.children().eq(0).children('input').hide();
+                            querybox = querybox.append('<div class="sent"></div>');
+                        }
+                        else {
+                            querybox = querybox.append('<button class="reply-button btn btn-success dropdown-toggle" type="button">Reply</button>');
+                            
+                        }
+                        $('.query-container').append(querybox)
+                    }
+                }
+                else {
+                    
+                    window.location.replace("http://localhost:3000/login");
+                    localStorage.removeItem('jwtToken');
+                }
+        },
+        error: function (xhr, status, error) {
+            
+            if (xhr.status == 401) {
+                window.location.replace("http://localhost:3000/login");
+                localStorage.removeItem('jwtToken');
+            }
+        }
+    }); 
+}
+$(document).ready(function () {
+    if (localStorage.jwtToken != undefined) {
+        // const questions = [
+        //     "heyy",
+        //     "hello",
+        //     "what is the fees?",
+        //     "fees for Ph.D?",
+        //     "documents?",
+        //     "docs for ST"
+        // ];
+        // $.ajax({
+        //     method: 'POST', url: 'http://127.0.0.1:2000/api/rankings', headers: { Authorization: localStorage.jwtToken }, data: { questions }, success: function (response) {
+        //         console.log(response)
+        //      }
+        // });
+        populate(-1);
+    }
+    else {
+        window.location.replace("http://localhost:3000/login");
+    }
+});
 
 
 $('#send-email-popup img').click(function () {
@@ -40,12 +125,12 @@ $('.queries').click(() => {
     // localStorage.removeItem('jwtToken');
     window.location.replace("http://localhost:3000/admin/queries");
 });
-$('body').on('click', '.view img', function () {
-    $('#display-question-popup p').eq(0).text("Question: " + $(this).parent().parent().data('meta').question);
-    let isReplied = $(this).parent().parent().data('meta').isReplied;
+$('body').on('click', '.view', function () {
+    $('#display-question-popup p').eq(0).text("Question: " + $(this).parent().data('meta').question);
+    let isReplied = $(this).parent().data('meta').isReplied;
     // console.log(isReplied);
     if (isReplied) {
-        $('#display-question-popup p').eq(1).text("Answer: " + $(this).parent().parent().data('meta').reply);
+        $('#display-question-popup p').eq(1).text("Answer: " + $(this).parent().data('meta').reply);
     }
     else {
         $('#display-question-popup p').eq(1).text("");
@@ -53,65 +138,72 @@ $('body').on('click', '.view img', function () {
     $('#display-question-popup').fadeIn(200);
 })
 $('body').on('click', '.reply-button', function (event) {
+    similarEmailReply = [];
     event.preventDefault()
     let meta = $(this).parent().data('meta');
-    
+    console.log(meta.groupNo);
     $('#send-email-popup .question').text("Question: "+ meta.question);
     $('#send-email-popup .answerbox').val('');
     $('#send-email-popup').fadeIn(200);
-    $('#send-email-popup .emailbox').val(meta.email);
-    $('#send-email-popup .yes').data('id', meta.id);
-});
-
-
-
-function populate(status) {
-    $.ajax({
-            method: 'POST', url: '/admin/queries/getQueries', headers: { Authorization: localStorage.jwtToken }, data: { replied: status }, success: function (response) {
-            if (response.code == 1) {
-                console.log(response)
-                    $('.query-container').children().remove();
-                    for (query of response.queries) {   
-                        let location = query.location
-                        let email = query.email;
-                        let question = query.question;
-                        let id = query.id
-                        let reply = query.reply;
-                        let postedDate = query.timestamp.slice(0, 19) + 'Z';
-                        postedDate = new Date(postedDate);
-                        
-                        let isReplied = query.isReplied;
-                        let querybox = $('<div class="query"></div>');
-                        querybox.append(checkBox +'<div>' + location + '</div><div>' + email + '</div>'+view+'<div>' + postedDate.getDay() + '/' + (postedDate.getMonth() + 1) + '/' + postedDate.getFullYear() + '</div><div>' + postedDate.getHours() + ':' + postedDate.getMinutes() + '</div>');
-                        querybox.data('meta', { question, email ,id,isReplied,reply});
-                        
-                        if (isReplied) {
-                            // querybox.hide('')
-                            querybox.children().eq(0).children('input').hide();
-                            querybox = querybox.append('<div class="sent"></div>');
-                        }
-                        else {
-                            querybox = querybox.append('<button class="reply-button btn btn-success dropdown-toggle" type="button">Reply</button>');
-                            
-                        }
-                        $('.query-container').append(querybox)
-                    }
-                }
-                else {
-                    window.location.replace("http://localhost:3000/login");
-                    localStorage.removeItem('jwtToken');
-                }
+    if (groups[meta.groupNo].length > 1) {
+        $('#similar #no-similar').hide();
+        $('#similar #no-similar-img').hide();
+        $('#similar ul').show();
+        $('.similar-header div').show();
+        $('#similar ul').children().remove();
+        for (query of groups[meta.groupNo]) {
+            if (meta.id != query.id) {
+                let question = $('<li><span>' + query.question + '</span><input type="checkbox" /></li>');
+                const data = { question: query.question, email: query.email, id: query.id, groupNo: meta.groupNo };
+                question.data('meta',data)
+                $('#similar ul').append(question);
             }
-        }); 
-}
-$(document).ready(function () {
-    if (localStorage.jwtToken != undefined) {
-        populate(-1);
+        }
     }
     else {
-        window.location.replace("http://localhost:3000/login");
+        $('#similar #no-similar').show();
+        $('#similar #no-similar-img').show();
+        $('#similar ul').hide();
+        $('.select-all-btn').hide();
     }
+    $('#send-email-popup .emailbox').val(meta.email);
+    $('#send-email-popup .yes').data('meta', { id: meta.id, groupNo: meta.groupNo });
 });
+
+$('body').on('change', '#similar ul li input', function () {
+    let boxState = $(this).is(":checked");
+    const meta = $(this).parent().data().meta;
+    // console.table(meta);
+    if (boxState) {
+        similarEmailReply.push(meta);
+    }
+    else {
+        similarEmailReply = _.filter(similarEmailReply, function (obj) {
+           return meta.id != obj.id 
+        }); 
+    }
+
+    console.table(similarEmailReply);
+
+
+    
+});
+
+$('.select-all-btn input').change(function () {
+    const boxState = $(this).is(":checked");
+    if (boxState) {
+        similarEmailReply = [];
+        $("#similar ul").children().each(function () {
+            $(this).children('input').prop('checked',true)
+           similarEmailReply.push($(this).data().meta) 
+        });
+    } else {
+        $("#similar ul li input").prop('checked',false)
+        similarEmailReply = []
+    }
+    console.table(similarEmailReply);
+})
+
 
 
 $('.status ul li').click(function () {
@@ -130,39 +222,53 @@ $('.status ul li').click(function () {
 
 
 $('#send-email-popup .yes').click(function () {
-    let id = $(this).data('id');
+    let id = $(this).data('meta').id;
+    const groupNo = $(this).data('meta').groupNo;
     let popup = $(this).parent();
     let email = popup.children('.emailbox').val();
     let reply = popup.children('.answerbox').val();
     let question = popup.children('.question').text();
 
+    similarEmailReply.push({ question, email, id })
+    similarEmailReply = _.map(similarEmailReply,(obj)=>({...obj,answer:reply}))
 
-    $('.query-container').children().each(function () {
-        if ($(this).data('meta').id == id) {
-            console.log($(this).children())
-            $(this).children().remove('.reply-button');
-            $(this).children().eq(0).children('input').hide();
-            $(this).append("<div class = 'sent'></div>")
-            $(this).data('meta').reply = reply;
-            $(this).data('meta').isReplied = true;
-        }
-    });
+            
 
     $.ajax({
         method: 'POST',
-        url: "/admin/queries/sendReply",
+        url: "/admin/queries/sendReplyMultiple",
         headers: { Authorization: localStorage.jwtToken },
         data: {
-            id: id,
-            email: email,
-            answer: reply,
-            question:question
+            queries: similarEmailReply
         },
         success: function (response) {
+           const similarQueryIds = _.map(similarEmailReply, (obj) => obj.id);
+            console.log(similarQueryIds);
+            console.table(similarEmailReply);
+            $('.query-container').children().each(function () {
+                if (similarQueryIds.includes($(this).data('meta').id)) {
+                    // console.log($(this).children())
+                    $(this).children().remove('.reply-button');
+                    $(this).children().eq(0).children('input').hide();
+                    $(this).append("<div class = 'sent'></div>")
+                    $(this).data('meta').reply = reply;
+                    $(this).data('meta').isReplied = true;
+                }
+            });
+            for (id of similarQueryIds) {
+                groups[groupNo] = _.filter(groups[groupNo], obj => {
+                    return obj.id != id
+                });                
+            }
+            console.table(groups[groupNo]);
             displayToast('Success', 'success', 'Response sent successfully');
             $('#send-email-popup').fadeOut(200);
+        },
+        error: function (error) {
+            displayToast('error', 'error', 'Something went wrong');
+            $('#send-email-popup').fadeOut(200);
         }
-    })
+    });
 });
 
 $('body').on('change', '.round input', function () {

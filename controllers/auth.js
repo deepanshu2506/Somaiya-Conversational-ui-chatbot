@@ -13,6 +13,7 @@ let controllers = {
                 res.send({code : 0 , message : 'could  not connect '})
             }
             conn.query(get_user_query, req.body.email, (err, results, fields) => {
+                console.log(err)
                 if (results.length == 0) {
                     res.send({code:0, message:'username incorrect'})
                 }

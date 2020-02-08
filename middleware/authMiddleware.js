@@ -16,6 +16,7 @@ module.exports = {
           console.log(result);
         next();
       } catch (err) {
+        // console.log(err)
         // Throw an error just in case anything goes wrong with verification
           res.status(401).send({ code: 0, message: 'Something went wrong' });
       }

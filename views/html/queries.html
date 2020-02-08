@@ -21,7 +21,24 @@
     <div id="send-email-popup" class="popup">
         <img src="../resources/cancel.svg" width="30px" height="30px" alt="">
         <p>Send Reply</p>
-        <input type="text" readonly class="textbox emailbox"/>
+        <input type="text" readonly class="textbox emailbox" hidden/>
+        <div class="similar-header">
+            <h4>similar Questions</h4>
+            <div class="select-all-btn"><span>Select all</span> <input type="checkbox" id=""></div>
+        </div>
+        <div id="similar">
+            <span id="no-similar">No similar questions</span>
+            <img id="no-similar-img" src="../resources/notFound.svg" alt="">
+            <ul >
+                <!-- <li><span>abc</span><input type="checkbox" /></li>
+                <li><span>abc</span><input type="checkbox" /></li>
+                <li><span>abc</span><input type="checkbox" /></li>
+                <li><span>abc</span><input type="checkbox" /></li>
+                <li><span>abc</span><input type="checkbox" /></li>
+                <li><span>abc</span><input type="checkbox" /></li> -->
+            </ul>
+        </div>
+        <!-- <div class="select-all">Select all</div> -->
         <div class="question"></div>
         <textarea name='answer' placeholder="Type the Response" class="answerbox textbox" rows="4"
             style="height: 150px;"></textarea>
@@ -29,7 +46,7 @@
         <button class="yes">Send</button>
     </div>
 
-    <div id="send-email-multiple-popup" class="popup">
+    <div id="send-email-multiple-popup" style="display: none;" class="popup">
         <img src="../resources/cancel.svg" width="30px" height="30px" alt="">
         <p>Send Reply</p>
         <input type="text" readonly class="textbox emailbox-multiple" />
@@ -66,7 +83,7 @@
         <div id="content-header">
             <div></div>
             <div>Location</div>
-            <div>Email Address</div>
+            <div>question</div>
             <div></div>
             <div>Date</div>
             <div>time</div>
