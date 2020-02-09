@@ -28,16 +28,25 @@ for grouping of queries:
  clone the [query grouping API](https://www.google.com "grouping API") follow the instructions given there
  
  $ which node
+ 
  copy the path of node
+ 
  sudo crontab -e 
+ 
  select nano editor
+ 
  go to bottom of file
+ 
  create a crontab "0 */1 * * * node_path <space> /absolute_path_to_repository/groupingService/index.js 
 
 features: 
   create chat flows as you like
+  
   chat history persistence and emailing
+  
   ML model to answer not listed queries
+  
   panel to list all not answered queries
+  
   grouping of not listed queries for easier handling by administrator while replying 
   
