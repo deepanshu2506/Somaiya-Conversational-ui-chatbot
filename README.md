@@ -25,7 +25,7 @@ Go to localhost:3000 from your browser
 
 for grouping of queries: 
 
- clone the [query grouping API](https://www.google.com "grouping API") follow the instructions given there
+ clone the [query grouping API](https://github.com/deepanshu2506/SimilarSentenceGrouping "grouping API") follow the instructions given there
  
  $ which node
  
