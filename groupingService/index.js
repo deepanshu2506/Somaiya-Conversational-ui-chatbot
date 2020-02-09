@@ -1,3 +1,4 @@
+#!/usr/local/bin/node
 var mysql = require('mysql');
 const util = require('util'); 
 const _ = require('lodash');

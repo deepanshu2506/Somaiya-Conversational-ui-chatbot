@@ -26,6 +26,8 @@ Go to localhost:3000 from your browser
 for grouping of queries: 
 
  clone the [query grouping API](https://github.com/deepanshu2506/SimilarSentenceGrouping "grouping API") follow the instructions given there
+
+ clone the [ML model repository](https://github.com/padfoot18/SAHEB "grouping API") follow the instructions given there. 
  
  $ which node
  

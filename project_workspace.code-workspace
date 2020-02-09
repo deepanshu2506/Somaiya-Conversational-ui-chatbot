@@ -5,7 +5,12 @@
 		},
 		{
 			"path": "D:\\projects\\SimilarSentenceGrouping"
+		},
+		{
+			"path": "D:\\projects\\SAHEB"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "SAHEB"
+	}
 }

@@ -52,7 +52,7 @@ function populate(status) {
                         
                         let isReplied = query.isReplied;
                         let querybox = $('<div class="query"></div>');
-                        querybox.append(checkBox +'<div>' + location + '</div><div>' + question + '</div>'+view+'<div>' + postedDate.getDay() + '/' + (postedDate.getMonth() + 1) + '/' + postedDate.getFullYear() + '</div><div>' + postedDate.getHours() + ':' + postedDate.getMinutes() + '</div>');
+                        querybox.append(checkBox +'<div>' + location + '</div><div>' + question + '</div>'+view+'<div>' + postedDate.getDate() + '/' + (postedDate.getMonth() + 1) + '/' + postedDate.getFullYear() + '</div><div>' + postedDate.getHours() + ':' + postedDate.getMinutes() + '</div>');
                         querybox.data('meta', { question, email ,id,isReplied,reply,groupNo,groups:groups[query.groupNo]});
                         
                         if (isReplied) {
@@ -106,6 +106,7 @@ $(document).ready(function () {
 
 
 $('#send-email-popup img').click(function () {
+    console.log('sf')
     $('#send-email-popup').fadeOut(200);
 });
 $('#display-question-popup img').click(function () {

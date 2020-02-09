@@ -201,6 +201,7 @@ $('.options').on('click','.optionbtn',function(){
     }else if(next_question == -11){
         //If question not listed
         console.log('not listed');
+        
         //Creating div to display message to user
         var newmsg = $("<div class ='message-sent'>Type your query</div>");
         newmsg.hide();
@@ -317,22 +318,38 @@ $('body').on('click', '.send-email', function () {
 //Action to be taken after click on send button
 $('.chat-content').on('click','.send',function(){
     //Store user query in 'text' and user email in 'email'
-    var text = $('.text').val();
-    var email = $('.email').val();
-    console.log(text);
-    console.log(email);
+    var text = $('.text').last().val();
+    var email = $('.email').last().val() || localStorage.email;
+    // console.log(text);
+    // console.log(email);
     //Check whether user entered a question or not
     if(text == ''){
         alert('please type a question before sending.');
     }
-    //Check email validity
+    
     else if(email == '' || !email.match(email_regex)){
         alert('enter valid email');
     }
     else {
         
-        //Create div to display acknowledgement message to user
-                var msgrcd = $("<div class ='message-received'>Your query has been recorded<br> We will reachout to you shortly.</div>");
+        var conversation = JSON.parse(localStorage.conversation);
+        conversation.push({ from: 'user', message: text, type:2 });
+        localStorage.setItem('conversation', JSON.stringify(conversation));
+        $.post('http://127.0.0.1:5000/chat/', { question: text }, function (res) {
+            console.log(res);
+                    var message = "";
+                    if (res == "-1") {
+                        message = 'Your query has been recorded<br> We will reachout to you shortly.';
+                        $.post('/chat/send_email', { 'question': text, 'email': email });
+                    }
+                    else {
+                        message = res;
+                    }
+                conversation = JSON.parse(localStorage.conversation);
+                console.log(message);
+                conversation.push({ from: 'SAHEB', message,type:1, id:1 });
+                localStorage.setItem('conversation', JSON.stringify(conversation));
+                var msgrcd = $("<div class ='message-received'>"+message+"</div>");
                     msgrcd.hide();
                     textBoxDisplayed = false;
                     $('.chat-content').append(msgrcd);
@@ -360,13 +377,7 @@ $('.chat-content').on('click','.send',function(){
                         }
                     }); 
                 });
-        $.post('/chat/send_email',{'question' : text,'email': email} , function(data){
-            console.log(data);
-            console.log("email sent");
-
-                
-                //Display first question and it's options by appending option buttons
-               
-        });
+            
+                });
     }
 });
