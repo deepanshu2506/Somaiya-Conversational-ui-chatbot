@@ -6,8 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dbStart": "c:\\xampp\\xampp-control.exe",
-    "ServerStart": "nodemon index.js",
-    "start": "run-p ServerStart dbStart"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",

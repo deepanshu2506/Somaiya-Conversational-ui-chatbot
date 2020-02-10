@@ -43,13 +43,13 @@ $(document).ready(function () {
             }, error: function (error) {
                 console.log('error');
                 localStorage.removeItem('jwtToken');
-                window.location.replace("http://localhost:3000/login");
+                window.location.replace("http://172.17.1.45:3000/login");
 
             }
         });
     }
     else {
-                window.location.replace("http://localhost:3000/login");
+                window.location.replace("http://172.17.1.45:3000/login");
         
     }
 

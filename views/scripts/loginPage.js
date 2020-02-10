@@ -13,7 +13,7 @@ $('.login_btn').click(function () {
                         if (response.code == 1) {
                             localStorage.jwtToken = response.token;
                             console.log('done');
-                            window.location.replace("http://localhost:3000/admin");    
+                            window.location.replace("http://172.17.1.45:3000/admin");    
                         }
                         else {
                             $('#error').text('*' + response.message);

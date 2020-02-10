@@ -3,6 +3,7 @@ var chatboxOpen = false;
 var email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 let flagFirst = false;
 
+let ip = "http://172.17.1.45:3000"
 function loadInitialState() {
     let conversation = JSON.parse(localStorage.conversation);
     for (message of conversation) {
@@ -26,7 +27,7 @@ function loadInitialState() {
     }
       else if (lastQuery.type == 1) {
           console.log(lastQuery.id)
-          $.post('/chat/get_options',{next_options:lastQuery.id},function(data){
+          $.post(ip + '/chat/get_options',{next_options:lastQuery.id},function(data){
                 for(option of data){
                     $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
                 }
@@ -45,7 +46,7 @@ function loadInitialState() {
             conversation.push({ from: 'SAHEB', message: data ,type:1 , id:1});
             localStorage.setItem('conversation', JSON.stringify(conversation));
         });
-        $.post('/chat/get_options',{'next_options':'1'},(data)=>{
+        $.post(ip +'/chat/get_options',{'next_options':'1'},(data)=>{
             for(option of data){
                 $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
             }
@@ -61,14 +62,14 @@ function loadInitialState() {
 function start_chat() {
     // console.log(JSON.parse(localStorage.conversation).length)
     if (localStorage.conversation == undefined ||localStorage.conversation == '[]' || JSON.parse(localStorage.conversation).length == 1) {
-         $.get('/chat/start',(data)=>{
+         $.get(ip+'/chat/start',(data)=>{
             $('.chat-content').append("<div class ='message-received'>"+data+"</div>").hide().fadeIn(400);
             localStorage.setItem('conversation', JSON.stringify([]));
             var conversation = JSON.parse(localStorage.conversation);
             conversation.push({ from: 'SAHEB', message: data ,type:1 , id:1});
             localStorage.setItem('conversation', JSON.stringify(conversation));
         });
-        $.post('/chat/get_options',{'next_options':'1'},(data)=>{
+        $.post(ip+'/chat/get_options',{'next_options':'1'},(data)=>{
             for(option of data){
                 $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
             }
@@ -175,7 +176,7 @@ $('.options').on('click','.optionbtn',function(){
     //If option with valid associated next question is selected
     if(next_question != 'null' && next_question != -11 && next_question != ""){
         setTimeout(()=>{
-            $.post('/chat/next_question',{'next_question':next_question},function(data){
+            $.post(ip+'/chat/next_question',{'next_question':next_question},function(data){
                 //Create div to display reply message i.e. next question
                 var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
                 var conversation = JSON.parse(localStorage.conversation);
@@ -190,7 +191,7 @@ $('.options').on('click','.optionbtn',function(){
                 //Clear previous options
                 $('options').empty();
                 //Add new options by passing id of current question to obtain it's associated options
-                $.post('/chat/get_options',{'next_options':data.id},function(data){
+                $.post(ip+'/chat/get_options',{'next_options':data.id},function(data){
                     for(option of data){
                         $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
                     }
@@ -229,7 +230,7 @@ $('.options').on('click','.optionbtn',function(){
         console.log('hello')
      }else {
         //If selected option has a final answer then display answer and show start over button
-        $.post('/chat/answer',{'option':$(this).text()}, function(data){
+        $.post(ip+'/chat/answer',{'option':$(this).text()}, function(data){
             //Create a div to display answer to user, here 'data' holds final answer
             var msgrcd = $("<div class ='message-received'>" + data + "</div>");
             var conversation = JSON.parse(localStorage.conversation);
@@ -261,7 +262,7 @@ function sendEmail(email) {
     localStorage.setItem('conversation', JSON.stringify([]));
     $('.chat-content').append("<div class ='message-received'>History sent to: <br>" + email + "</div>");
     
-    $.post('/chat/next_question', { 'next_question': 1 }, function (data) {
+    $.post(ip+'/chat/next_question', { 'next_question': 1 }, function (data) {
             var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
             var conversation = JSON.parse(localStorage.conversation);
             conversation.push({ from: 'SAHEB', message: data.question,type:1, id:1 });
@@ -276,14 +277,14 @@ function sendEmail(email) {
             //Clear previous options
             $('options').empty();
             //Add new options
-        $.post('/chat/get_options', { 'next_options': data.id }, function (data) {
+        $.post(ip+'/chat/get_options', { 'next_options': data.id }, function (data) {
             console.log(data);
                 for(option of data){
                     $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
                 }
             }); 
     });
-    $.post('/chat/send_chat_history', { conversation: conversation, email: email }, function (response) {
+    $.post(ip+'/chat/send_chat_history', { conversation: conversation, email: email }, function (response) {
         console.log(response)
         
     });
@@ -335,12 +336,12 @@ $('.chat-content').on('click','.send',function(){
         var conversation = JSON.parse(localStorage.conversation);
         conversation.push({ from: 'user', message: text, type:2 });
         localStorage.setItem('conversation', JSON.stringify(conversation));
-        $.post('http://127.0.0.1:5000/chat/', { question: text }, function (res) {
+        $.post('http://172.17.1.45:5000/chat/', { question: text }, function (res) {
             console.log(res);
                     var message = "";
                     if (res == "-1") {
                         message = 'Your query has been recorded<br> We will reachout to you shortly.';
-                        $.post('/chat/send_email', { 'question': text, 'email': email });
+                        $.post(ip+'/chat/send_email', { 'question': text, 'email': email });
                     }
                     else {
                         message = res;
@@ -357,7 +358,7 @@ $('.chat-content').on('click','.send',function(){
                     $('.chat').animate({
                         scrollTop: $('.chat')[0].scrollHeight+150
                     }, "slow");
-            $.post('/chat/next_question',{'next_question':1},function(data){
+            $.post(ip+'/chat/next_question',{'next_question':1},function(data){
              var msgrcd = $("<div class ='message-received'>" + data.question + "</div>");
              var conversation = JSON.parse(localStorage.conversation);
             conversation.push({ from: 'SAHEB', message: data.question ,type:1,id:1});
@@ -371,7 +372,7 @@ $('.chat-content').on('click','.send',function(){
                     //Clear previous options
                     $('options').empty();
                     //Add new options
-                    $.post('/chat/get_options',{'next_options':data.id},function(data){
+                    $.post(ip+'/chat/get_options',{'next_options':data.id},function(data){
                         for(option of data){
                             $('.options').append("<button class = 'optionbtn' value = '"+option.next_question+"'>"+option.option_name+"</button>").hide().fadeIn(400);
                         }
