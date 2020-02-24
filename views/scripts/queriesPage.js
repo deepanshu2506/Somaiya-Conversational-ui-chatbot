@@ -69,14 +69,14 @@ function populate(status) {
                 }
                 else {
                     
-                    window.location.replace("http://172.17.1.45:3000/login");
+                    window.location.replace("/login");
                     localStorage.removeItem('jwtToken');
                 }
         },
         error: function (xhr, status, error) {
             
             if (xhr.status == 401) {
-                window.location.replace("http://172.17.1.45:3000/login");
+                window.location.replace("/login");
                 localStorage.removeItem('jwtToken');
             }
         }
@@ -100,7 +100,7 @@ $(document).ready(function () {
         populate(-1);
     }
     else {
-        window.location.replace("http://172.17.1.45:3000/login");
+        window.location.replace("/login");
     }
 });
 
@@ -115,16 +115,16 @@ $('#display-question-popup img').click(function () {
 
 $('.logout').click(() => {
     localStorage.removeItem('jwtToken');
-    window.location.replace("http://172.17.1.45:3000/login");
+    window.location.replace("/login");
 });
 
 $('.admin').click(() => {
-    window.location.replace("http://172.17.1.45:3000/admin");
+    window.location.replace("/admin");
 });
 
 $('.queries').click(() => {
     // localStorage.removeItem('jwtToken');
-    window.location.replace("http://172.17.1.45:3000/admin/queries");
+    window.location.replace("/admin/queries");
 });
 $('body').on('click', '.view', function () {
     $('#display-question-popup p').eq(0).text("Question: " + $(this).parent().data('meta').question);

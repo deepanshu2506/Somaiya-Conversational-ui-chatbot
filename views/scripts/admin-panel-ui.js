@@ -21,16 +21,16 @@ $(document).contextmenu(function(e){
 
 $('.logout').click(() => {
     localStorage.removeItem('jwtToken');
-    window.location.replace("http://172.17.1.45:3000/login");
+    window.location.replace("/login");
 });
 
 $('.admin').click(() => {
-    window.location.replace("http://172.17.1.45:3000/admin");
+    window.location.replace("/admin");
 });
 
 $('.queries').click(() => {
     // localStorage.removeItem('jwtToken');
-    window.location.replace("http://172.17.1.45:3000/admin/queries");
+    window.location.replace("/admin/queries");
 });
 
 

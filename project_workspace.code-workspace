@@ -8,9 +8,13 @@
 		},
 		{
 			"path": "D:\\projects\\SAHEB"
+		},
+		{
+			"path": "D:\\projects\\monopoly-game"
 		}
 	],
 	"settings": {
-		"liveServer.settings.multiRootWorkspaceName": "SAHEB"
+		"liveServer.settings.multiRootWorkspaceName": "SAHEB",
+		"git.ignoreLimitWarning": true
 	}
 }
