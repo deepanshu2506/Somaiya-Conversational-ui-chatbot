@@ -5,7 +5,7 @@
     font-family: 'montserrat', 'sans-serif';
 }
 body{
-    overflow: hidden;
+    /* overflow: hidden; */
     width: 100%;
 }
 #close{
@@ -45,6 +45,11 @@ body{
     height: 47px;
     padding-left: 10px;
     float: left;
+}
+.page{
+  width: 100%;
+  height: 10000px;
+  background-color: red;
 }
 
 .chatbot-header svg{
@@ -145,30 +150,29 @@ body{
   }
 
   .send , .send-email{
-    margin-left: 5px;
+    margin-left: 5px !important;
 
-    height: 35px;
-    width: 35px;
-    color: antiquewhite;
-    outline: none;
-    border: none;
-    border-radius: 20px;
-    background-color: #162443;
-    float: left;
-    
+    height: 35px !important;
+    width: 35px !important;
+    color: antiquewhite !important;
+    outline: none !important;
+    border: none !important;
+    border-radius: 20px !important;
+    background-color: #162443 !important;
+    float: left !important;
   }
 
   .optionbtn , .startbtn{
-    height: 35px;
-    padding: 10px 15px;
+    height: 35px !important;
+    padding: 10px 15px !important;
     /* font-size: 15px; */
-    border-radius: 10px;
-    margin: 5px 10px 5px 0;
-    border: none;
-    background-color: #162443;
-    color: antiquewhite;
-    outline: none;
-    float: left;
+    border-radius: 10px !important;
+    margin: 5px 10px 5px 0 !important;
+    border: none !important;
+    background-color: #162443 !important;
+    color: antiquewhite !important;
+    outline: none !important;
+    float: left !important;
   }
 
   .disclaimer{
