@@ -1,0 +1,97 @@
+@media only screen and (max-width: 600px) {
+    body{
+        /* background-color: blue; */
+    }
+
+    .chatbot-header{
+        /* width: 100px; */
+        box-shadow: none;
+        border-radius: 0px;
+        /* display: none; */
+    }
+
+
+    .logo{
+        display: inline;
+        float: none;
+    }
+    .bot-icon{
+        display: block;
+        /* width: 150px; */
+        /* height: 60px; */
+        box-sizing: border-box;
+        padding: 0px;
+        background-color: #162443; 
+        border-radius: 40px;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    } 
+    #online{
+        background-color: green;
+        height: 15px;width: 15px;
+        position: absolute;
+        border-radius: 50%;
+        margin: -5px 0 0 0px;
+    }
+    #mobile-logo{
+        width:30px;
+        height:30px;
+        padding: 5px;
+        padding-left: 0px;
+        padding-right: 10px;
+
+        /* margin-top: 2px; */
+
+    }
+    .bot-icon h3{
+        font-size: 80%;
+        float: left;
+        color: white;
+        line-height: 45px;
+        box-sizing: border-box;
+        padding-left: 15px;
+        /* border: 1px solid green; */
+        width: 135px;
+        height: 40px;
+    }
+    .chatbot{
+            box-shadow: none;
+            top: 0;
+            right: 0;
+            width: 100%;
+            bottom: 0;
+            height: 100%;
+            display: none;
+            /* background-size: 100% 100%; */
+            /* background-repeat: repeat-y */
+    }
+    .wrapper{
+        height: 100%;
+    }
+    .chat{
+        max-height: 100%;
+        overflow-y: scroll;
+    }
+    .chatbot-header i{
+        display: none;
+    }
+    .chatbot-header svg{
+        width: 14px;
+    }
+
+    #close{
+        display: block;
+        position: fixed;
+        width: 7vw;
+        right: 10px;
+        top: 10px;
+    }
+    .options{
+        margin-bottom: 50px;
+    }
+    .chat::-webkit-scrollbar {
+        display: block;
+    }
+}

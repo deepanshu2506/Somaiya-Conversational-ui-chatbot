@@ -1,0 +1,187 @@
+*{
+    margin: 0;
+    padding: 0;
+    /* background-color: lightssalmon; */
+    font-family: 'montserrat', 'sans-serif';
+}
+body{
+    /* overflow: hidden; */
+    width: 100%;
+}
+#close{
+  display: none;
+}
+.chatbot{
+    bottom: -420px;
+    /* bottom: 0; */
+    right: 40px;
+    position: fixed;
+    width: 350px;
+    height: 470px;
+    overflow: hidden;
+    /* overflow-x: scroll; */
+    
+    background-size: 120%;
+    box-shadow: 0 -4px 8px 3px rgba(0, 0, 0, 0.2), 0 -10px 20px 10px rgba(0, 0, 0, 0.19);
+
+}
+.chatbot-header{
+    width: 100%;
+    height: 50px;
+    background-color:#162443;
+    border-radius: 5px 5px 0 0;
+    box-sizing: border-box;
+    padding: 5px;
+    line-height: 50px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    z-index: 100;
+}
+.bot-icon{
+  display: none;
+}
+#logo{
+    height: 47px;
+    padding-left: 10px;
+    float: left;
+}
+.page{
+  width: 100%;
+  height: 10000px;
+  background-color: red;
+}
+
+.chatbot-header svg{
+    margin-left: 15px;
+}
+.chatbot-header h3{
+    color: whitesmoke;
+    margin-left: 10px;
+    float: left;
+}
+.chatbot-header i{
+    float: right;
+    right: 0;
+    color: white;
+    margin-left: 35px;
+}
+.chat{
+  width: 100%;
+  overflow-y: scroll;
+  float:  left;
+  max-height: 420px;
+  /* background: url('https://lms-kjsce.somaiya.edu/chatbot/background.png'); */
+
+}
+.wrapper{
+  width: 100%;
+  background: url('/resources/background.png');
+  height: 420px;
+  overflow-y: scroll;
+}
+.chat-content{
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px;
+    z-index: 0;
+    font-size: 13px;
+}
+.msgcont{
+  width: 100%;
+}
+.chat::-webkit-scrollbar {
+    display: none;
+  }
+.options{
+    width: 100%;
+    padding: 0 10px;
+    display: inline-block;
+    font-size: 13px;
+
+
+}
+
+
+  .message-received {
+      max-width: 70%;
+      background-color:#a12023;
+      /* z-index: 1; */
+      /* font-size: 15px; */
+      box-sizing: border-box;
+      padding: 10px;
+      margin: 7px;
+      border-radius: 10px;
+      color: antiquewhite;
+      clear: both;
+
+  }
+
+  .message-sent{
+    float: right;
+
+    text-align: right;
+
+    background-color:#a12023;
+      z-index: 1;
+      /* font-size: 15px; */
+      box-sizing: border-box;
+      padding: 10px;
+      margin: 7px;
+      border-radius: 10px;
+      max-width: 60%;
+      color: antiquewhite;
+      clear: both;
+  }
+
+  .other{
+    clear: both;
+    width: 80%;
+    height: 35px;
+    margin: auto 0;
+    background-color:whitesmoke;
+    float: left;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    padding-left: 10px;
+    /* font-size: 18px; */
+    outline: none;
+    margin-bottom: 10px;
+  }
+
+  .send , .send-email{
+    margin-left: 5px !important;
+
+    height: 35px !important;
+    width: 35px !important;
+    color: antiquewhite !important;
+    outline: none !important;
+    border: none !important;
+    border-radius: 20px !important;
+    background-color: #162443 !important;
+    float: left !important;
+  }
+
+  .optionbtn , .startbtn{
+    height: 35px !important;
+    padding: 10px 15px !important;
+    /* font-size: 15px; */
+    border-radius: 10px !important;
+    margin: 5px 10px 5px 0 !important;
+    border: none !important;
+    background-color: #162443 !important;
+    color: antiquewhite !important;
+    outline: none !important;
+    float: left !important;
+  }
+
+  .disclaimer{
+    background-color: #fff5c4;
+    width: 90%;
+    margin: 10px auto;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
